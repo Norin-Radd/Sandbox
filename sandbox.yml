@@ -22,7 +22,6 @@
     - { role: adminer, tags: ['adminer'] }
     - { role: airdcpp, tags: ['airdcpp'] }
     - { role: airsonic, tags: ['airsonic'] }
-    - { role: alltube, tags: ['alltube'] }
     - { role: alternatrr, tags: ['alternatrr'] }
     - { role: apprise, tags: ['apprise'] }
     - { role: archivebox, tags: ['archivebox'] }
@@ -36,6 +35,7 @@
     - { role: calibre_web, tags: ['calibre-web'] }
     - { role: changedetection, tags: ['changedetection'] }
     - { role: cherry, tags: ['cherry'] }
+    - { role: chrome, tags: ['chrome'] }
     - { role: cockpit, tags: ['cockpit'] }
     - { role: codex, tags: ['codex'] }
     - { role: code_server, tags: ['code-server'] }
@@ -54,6 +54,7 @@
     - { role: elasticsearch, tags: ['elasticsearch'] }
     - { role: embystat, tags: ['embystat'] }
     - { role: epms, tags: ['epms'] }
+    - { role: esphome, tags: ['esphome'] }
     - { role: factorio, tags: ['factorio'] }
     - { role: filebot, tags: ['filebot'] }
     - { role: filebrowser, tags: ['filebrowser'] }
@@ -78,6 +79,7 @@
     - { role: handbrake, tags: ['handbrake'] }
     - { role: healthchecks, tags: ['healthchecks'] }
     - { role: heimdall, tags: ['heimdall'] }
+    - { role: hoarder, tags: ['hoarder'] }
     - { role: homarr, tags: ['homarr'] }
     - { role: homeassistant, tags: ['homeassistant'] }
     - { role: homebox, tags: ['homebox'] }
@@ -91,6 +93,7 @@
     - { role: jellyseerr, tags: ['jellyseerr'] }
     - { role: jellystat, tags: ['jellystat'] }
     - { role: joplin, tags: ['joplin'] }
+    - { role: karakeep, tags: ['karakeep'] }
     - { role: kavita, tags: ['kavita'] }
     - { role: kcptun_client, tags: ['kcptun-client'] }
     - { role: kcptun_server, tags: ['kcptun-server'] }
@@ -105,7 +108,10 @@
     - { role: logarr, tags: ['logarr'] }
     - { role: lunasea, tags: ['lunasea'] }
     - { role: makemkv, tags: ['makemkv'] }
+    - { role: maybe_finance, tags: ['maybe-finance'] }
+    - { role: mealie, tags: ['mealie'] }
     - { role: medusa, tags: ['medusa'] }
+    - { role: meilisearch, tags: ['meilisearch'] }
     - { role: minecraft, tags: ['minecraft'] }
     - { role: minecraft_bedrock, tags: ['minecraft-bedrock'] }
     - { role: miniflux, tags: ['miniflux'] }
@@ -124,8 +130,8 @@
     - { role: notifiarr, tags: ['notifiarr'] }
     - { role: olivetin, tags: ['olivetin'] }
     - { role: ombi, tags: ['ombi'] }
-    - { role: omegabrr, tags: ['omegabrr'] }
     - { role: openobserve, tags: ['openobserve'] }
+    - { role: paperless_ai, tags: ['paperless-ai'] }
     - { role: paperless_ngx, tags: ['paperless-ngx'] }
     - { role: pgadmin, tags: ['pgadmin'] }
     - { role: photoprism, tags: ['photoprism'] }
@@ -137,6 +143,7 @@
     - { role: plexshare, tags: ['plexshare'] }
     - { role: plextraktsync, tags: ['plextraktsync'] }
     - { role: privatebin, tags: ['privatebin'] }
+    - { role: profilarr, tags: ['profilarr'] }
     - { role: puddletag, tags: ['puddletag'] }
     - { role: pufferpanel, tags: ['pufferpanel'] }
     - { role: pyload, tags: ['pyload'] }
@@ -195,9 +202,10 @@
     - { role: xteve, tags: ['xteve'] }
     - { role: yacht, tags: ['yacht'] }
     - { role: your_spotify, tags: ['your-spotify'] }
+    - { role: ytdl_sub, tags: ['ytdl-sub'] }
     - { role: znc, tags: ['znc'] }
     # Apps End
     # No CI
     - { role: lgsm, tags: ['lgsm'] }
-    - { role: main_tag, tags: ['sandbox-roles'] }
+    - { role: main_tag, tags: ['roles', 'sandbox-roles'] }
     - { role: plex_auto_languages, tags: ['plex-auto-languages'] }

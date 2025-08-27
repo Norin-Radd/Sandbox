@@ -21,8 +21,12 @@ filebrowser_paths_folder: "{{ filebrowser_name }}"
 filebrowser_paths_location: "{{ server_appdata_path }}/{{ filebrowser_paths_folder }}"
 filebrowser_paths_folders_list:
   - "{{ filebrowser_paths_location }}"
+  - "{{ filebrowser_paths_location }}/config"
+  - "{{ filebrowser_paths_location }}/database"
 filebrowser_paths_config_location: "{{ filebrowser_paths_location }}/filebrowser.json"
+filebrowser_paths_config_folder: "{{ filebrowser_paths_location }}/config"
 filebrowser_paths_db_location: "{{ filebrowser_paths_location }}/filebrowser.db"
+filebrowser_paths_db_folder: "{{ filebrowser_paths_location }}/database"
 
 ################################
 # Web
@@ -88,9 +92,9 @@ filebrowser_docker_commands: "{{ filebrowser_docker_commands_default
 
 # Volumes
 filebrowser_docker_volumes_default:
-  - "{{ filebrowser_paths_db_location }}:/database.db"
-  - "{{ filebrowser_paths_config_location }}:/.filebrowser.json"
-  - "/mnt/unionfs:/srv"
+  - "{{ filebrowser_paths_db_folder }}:/database"
+  - "{{ filebrowser_paths_config_folder }}:/config"
+  - "/mnt/unionfs:/srv:rslave"
 filebrowser_docker_volumes_custom: []
 filebrowser_docker_volumes: "{{ filebrowser_docker_volumes_default
                                 + filebrowser_docker_volumes_custom }}"
@@ -146,10 +150,3 @@ filebrowser_docker_state: started
 
 # User
 filebrowser_docker_user: "{{ uid }}:{{ gid }}"
-
-filebrowser_docker_healthcheck:
-  test: ["CMD", "curl", "--fail", "http://127.0.0.1:{{ filebrowser_web_port }}"]
-  interval: 5s
-  timeout: 3s
-  retries: 3
-  start_period: 2s

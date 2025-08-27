@@ -18,13 +18,14 @@ on:
 
 jobs:
   ansible-lint:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
           cache: 'pip'
           cache-dependency-path: 'requirements/requirements-lint.txt'
 
@@ -39,19 +40,21 @@ jobs:
         run: python3 ./scripts/salty-linter.py ./roles
 
   check-entries:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Check Missing Entries
         run: ./scripts/check_missing_entries.sh
 
   find-roles:
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]')
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - id: set-matrix
         run: echo "matrix={\"roles\":[$(awk '/# Apps Start/{flag=1;next}/# Apps End/{flag=0}flag' sandbox.yml | awk '!/#/' | awk -F'[][]' '{print $2}' | tr '\n' ',' | sed 's/,*$//' | awk -F',' '{ for( i=1; i<=NF; i++ ) print $i }' | awk '{ gsub(/ /,""); print }'| sort -u | awk -vORS=, '{ print $1 }' | sed 's/,$/\n/')]}" >> $GITHUB_OUTPUT
 
@@ -63,7 +66,7 @@ jobs:
       matrix: ${{ fromJson(needs.find-roles.outputs.matrix) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Dependencies
         run: curl https://raw.githubusercontent.com/saltyorg/sb/master/sb_install.sh --output sb_install.sh && sudo bash sb_install.sh -v && ansible --version
@@ -84,6 +87,7 @@ jobs:
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --syntax-check
 
       - name: Create CI vars file
+        if: github.repository == 'saltyorg/Sandbox' && github.event.repository.fork == false
         run: |
           echo "continuous_integration: true" > /tmp/vars.yml
           echo "dockerhub:" >> /tmp/vars.yml
@@ -98,3 +102,44 @@ jobs:
 
       - name: Install ${{ matrix.roles }}
         run: sudo ansible-playbook sandbox.yml --tags "${{ matrix.roles }}" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
+
+      - name: Inspect all Docker containers
+        run: |
+          echo "=== Inspecting all Docker containers ==="
+
+          # Get list of all containers (running and stopped)
+          ALL_CONTAINERS=$(docker ps -a -q)
+
+          if [ -z "$ALL_CONTAINERS" ]; then
+            echo "No containers found on this system"
+            exit 0
+          fi
+
+          echo "Found containers: $ALL_CONTAINERS"
+          echo ""
+
+          # Loop through each container and inspect it
+          for container_id in $ALL_CONTAINERS; do
+            echo "========================================="
+            echo "Inspecting container: $container_id"
+            echo "========================================="
+
+            # Get container name and status for better readability
+            CONTAINER_NAME=$(docker inspect --format='{{.Name}}' $container_id | sed 's/^\///')
+            CONTAINER_STATUS=$(docker inspect --format='{{.State.Status}}' $container_id)
+
+            echo "Container Name: $CONTAINER_NAME"
+            echo "Container Status: $CONTAINER_STATUS"
+            echo ""
+            echo "Full inspection details:"
+            echo "----------------------------------------"
+
+            # Print full inspection details
+            docker inspect $container_id
+
+            echo ""
+            echo "========================================="
+            echo ""
+          done
+
+          echo "=== Container inspection completed ==="
