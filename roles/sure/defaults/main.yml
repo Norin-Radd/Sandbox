@@ -19,7 +19,7 @@ sure_name: sure
 
 # PostgreSQL
 sure_postgres_name: "{{ sure_name }}-postgres"
-sure_postgres_docker_env_db: "{{ sure_name }}"
+sure_postgres_docker_env_db: "maybe_production"
 sure_postgres_docker_image_tag: "16"
 sure_postgres_docker_image_repo: "postgres"
 sure_postgres_paths_folder: "{{ sure_name }}"
