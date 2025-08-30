@@ -55,7 +55,7 @@ sure_worker_docker_envs_default:
   DB_PORT: "5432"
   POSTGRES_USER: "{{ postgres_docker_env_user }}"
   REDIS_URL: "redis://{{ sure_name }}-redis:6379/1"
-  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}
+  POSTGRES_PASSWORD: "{{ postgres_docker_env_password }}"
 sure_worker_docker_envs_custom: {}
 sure_worker_docker_envs: "{{ sure_worker_docker_envs_default 
                   | combine(sure_worker_docker_envs_custom) }}"
