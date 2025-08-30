@@ -165,6 +165,7 @@
     - { role: sqlitebrowser, tags: ['sqlitebrowser'] }
     - { role: sshwifty, tags: ['sshwifty'] }
     - { role: stash, tags: ['stash'] }
+    - { role: sure, tags: ['sure'] }
     - { role: syncthing, tags: ['syncthing'] }
     - { role: tandoor, tags: ['tandoor'] }
     - { role: tauticord, tags: ['tauticord'] }
