@@ -105,7 +105,6 @@
     - { role: lazylibrarian, tags: ['lazylibrarian'] }
     - { role: linkding, tags: ['linkding'] }
     - { role: linkwarden, tags: ['linkwarden'] }
-    - { role: logarr, tags: ['logarr'] }
     - { role: lunasea, tags: ['lunasea'] }
     - { role: makemkv, tags: ['makemkv'] }
     - { role: maybe_finance, tags: ['maybe-finance'] }
@@ -150,6 +149,7 @@
     - { role: python_plexlibrary, tags: ['python-plexlibrary'] }
     - { role: qbit_manage, tags: ['qbit-manage'] }
     - { role: qbittorrentvpn, tags: ['qbittorrentvpn'] }
+    - { role: qui, tags: ['qui'] }
     - { role: rdtclient, tags: ['rdtclient'] }
     - { role: recyclarr, tags: ['recyclarr'] }
     - { role: reposilite, tags: ['reposilite'] }
@@ -158,7 +158,6 @@
     - { role: rflood, tags: ['rflood'] }
     - { role: rocketchat, tags: ['rocketchat'] }
     - { role: sabthrottle, tags: ['sabthrottle'] }
-    - { role: sarotate, tags: ['sarotate'] }
     - { role: semaphoreui, tags: ['semaphoreui'] }
     - { role: solr, tags: ['solr'] }
     - { role: speedtest, tags: ['speedtest'] }
