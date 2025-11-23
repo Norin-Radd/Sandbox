@@ -5,29 +5,46 @@ on:
 
 jobs:
   ansible-lint:
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]' && github.actor != 'mend[bot]')
+    if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
+        with:
+          path: sandbox
+
+      - name: Checkout Saltbox repository
+        uses: actions/checkout@v5
+        with:
+          repository: saltyorg/Saltbox
+          path: saltbox
+
+      - name: Create Directories
+        run: sudo mkdir -p /srv/git
+
+      - name: Chown /srv/git
+        run: sudo chown -R runner:runner /srv/git
+
+      - name: Symlink cloned repository to /srv/git/saltbox
+        run: ln -s $GITHUB_WORKSPACE/saltbox /srv/git/saltbox
 
       - uses: actions/setup-python@v6
         with:
           python-version: '3.13'
           cache: 'pip'
-          cache-dependency-path: 'requirements/requirements-lint.txt'
+          cache-dependency-path: 'saltbox/requirements/requirements-saltbox.txt'
 
       - name: Install packages
-        run: pip install -r ./requirements/requirements-lint.txt
+        run: pip install -r ./saltbox/requirements/requirements-saltbox.txt
 
       - name: Run ansible linter
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ github.workspace }}/sandbox
         run: ansible-lint
 
       - name: Run salty linter
-        run: python3 ./scripts/salty-linter.py ./roles
+        run: python3 ./sandbox/scripts/salty-linter.py ./roles
 
   check-entries:
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]' && github.actor != 'mend[bot]')
+    if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
@@ -36,7 +53,7 @@ jobs:
         run: ./scripts/check_missing_entries.sh
 
   find-roles:
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.actor != 'renovate[bot]' && github.actor != 'mend[bot]')
+    if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.actor == 'renovate[bot]')
     runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -87,7 +104,7 @@ jobs:
         run: cd /srv/git/saltbox && sudo ansible-playbook saltbox.yml --tags "core" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
 
       - name: Copy default configuration
-        run: cp -n defaults/ansible.cfg.default ansible.cfg && cp -n defaults/settings.yml.default settings.yml
+        run: cp -n defaults/settings.yml.default settings.yml
 
       - name: Install ${{ matrix.roles }}
         run: sudo ansible-playbook sandbox.yml --tags "${{ matrix.roles }}" --skip-tags "settings" --extra-vars "@/tmp/vars.yml"
