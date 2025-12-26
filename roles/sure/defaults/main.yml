@@ -90,7 +90,7 @@ sure_docker_envs_default:
   SELF_HOSTED: "true"
   RAILS_FORCE_SSL: "true"
   RAILS_ASSUME_SSL: "false"
-  RAILS_DEVELOPMENT_HOSTS: "{{ user.domain }}"
+  RAILS_DEVELOPMENT_HOSTS: ".{{ user.domain }}"
   GOOD_JOB_EXECUTION_MODE: "async"
   SECRET_KEY_BASE: "{{ sure_saltbox_facts.facts.secret_key_base }}"
   DB_USERNAME: "{{ postgres_docker_env_user }}"
@@ -113,6 +113,8 @@ sure_docker_commands: "{{ sure_docker_commands_default
 # Volumes
 sure_docker_volumes_default:
   - "{{ sure_paths_location }}:/rails/storage"
+  - "{{ sure_postgres_paths_location }}:/var/lib/postgresql/data"
+  - "{{ server_appdata_path }}/{{ sure_name }}/redis:/data"
 sure_docker_volumes_custom: []
 sure_docker_volumes: "{{ sure_docker_volumes_default
                               + sure_docker_volumes_custom }}"
@@ -171,3 +173,4 @@ sure_depends_on: "{{ sure_postgres_name }}"
 sure_depends_on_delay: "5"
 
 sure_depends_on_healthchecks: "true"
+
