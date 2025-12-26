@@ -46,8 +46,9 @@ sure_worker_docker_envs_default:
   PUID: "{{ uid }}"
   PGID: "{{ gid }}"
   SELF_HOSTED: "true"
-  RAILS_FORCE_SSL: "false"
+  RAILS_FORCE_SSL: "true"
   RAILS_ASSUME_SSL: "false"
+  RAILS_DEVELOPMENT_HOSTS: "{{ user.domain }}"
   GOOD_JOB_EXECUTION_MODE: "async"
   SECRET_KEY_BASE: "{{ sure_saltbox_facts.facts.secret_key_base }}"
   DB_USERNAME: "{{ postgres_docker_env_user }}"
@@ -126,4 +127,5 @@ sure_worker_docker_state: started
 # Dependencies
 sure_worker_depends_on: "{{ sure_worker_postgres_name }}"
 sure_worker_depends_on_delay: "5"
+
 sure_worker_depends_on_healthchecks: "true"
