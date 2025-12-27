@@ -126,8 +126,9 @@ sure_worker_docker_restart_policy: unless-stopped
 sure_worker_docker_state: started
 
 # Dependencies
-sure_worker_depends_on: "{{ sure_worker_postgres_name }}"
+sure_worker_depends_on: "{{ sure_postgres_name }}"
 sure_worker_depends_on_delay: "5"
 
 sure_worker_depends_on_healthchecks: "true"
+
 
